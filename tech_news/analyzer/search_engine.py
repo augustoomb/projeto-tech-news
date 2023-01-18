@@ -48,7 +48,10 @@ def search_by_tag(tag):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    query = {"category": {"$regex": category, "$options": "i"}}
+    result = search_news(query)
+    list_obj = [(news["title"], news["url"]) for news in result]
+    return list_obj
 
 
 print(search_by_tag("Tecnologia"))
