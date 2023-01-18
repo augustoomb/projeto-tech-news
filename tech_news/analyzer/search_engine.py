@@ -14,13 +14,15 @@ def format_date(obj_date):
     return f"{day}/{month}/{year}"
 
 
+def search_in_database(query):
+    result = search_news(query)
+    return [(news["title"], news["url"]) for news in result]
+
+
 # Requisito 6
 def search_by_title(title):
-    # query = {"title": title}
     query = {"title": {"$regex": title, "$options": "i"}}
-    result = search_news(query)
-    list_obj = [(news["title"], news["url"]) for news in result]
-    return list_obj
+    return search_in_database(query)
 
 
 # Requisito 7
@@ -30,9 +32,7 @@ def search_by_date(date):
         formated_date = format_date(obj_date)
 
         query = {"timestamp": {"$regex": formated_date}}
-        result = search_news(query)
-        list_obj = [(news["title"], news["url"]) for news in result]
-        return list_obj
+        return search_in_database(query)
 
     except ValueError:
         raise ValueError("Data inválida")
@@ -41,22 +41,16 @@ def search_by_date(date):
 # Requisito 8
 def search_by_tag(tag):
     query = {"tags": {"$regex": tag, "$options": "i"}}
-    result = search_news(query)
-    list_obj = [(news["title"], news["url"]) for news in result]
-    return list_obj
+    return search_in_database(query)
 
 
 # Requisito 9
 def search_by_category(category):
     query = {"category": {"$regex": category, "$options": "i"}}
-    result = search_news(query)
-    list_obj = [(news["title"], news["url"]) for news in result]
-    return list_obj
+    return search_in_database(query)
 
-
-print(search_by_tag("Tecnologia"))
 
 # Fontes:
 
-#     Req6: https://stackoverflow.com/questions/10610131/
+#     https://stackoverflow.com/questions/10610131/
 #       checking-if-a-field-contains-a-string
