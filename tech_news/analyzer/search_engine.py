@@ -40,7 +40,10 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_tag(tag):
-    """Seu código deve vir aqui"""
+    query = {"tags": {"$regex": tag, "$options": "i"}}
+    result = search_news(query)
+    list_obj = [(news["title"], news["url"]) for news in result]
+    return list_obj
 
 
 # Requisito 9
@@ -48,7 +51,7 @@ def search_by_category(category):
     """Seu código deve vir aqui"""
 
 
-print(search_by_date("2022-04-07"))
+print(search_by_tag("Tecnologia"))
 
 # Fontes:
 
